@@ -1,12 +1,12 @@
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsString } from 'class-validator'
 
 export class LoginRequestBody {
   @IsEmail()
-  email: string;
+    email: string
 
   @IsString()
-  password: string;
+    password: string
 
   @IsString()
-  tenant: string;
+    tenant: string
 }
