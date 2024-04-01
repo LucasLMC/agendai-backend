@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NestMiddleware,
-} from '@nestjs/common'
+import { BadRequestException, Injectable, NestMiddleware } from '@nestjs/common'
 import { NextFunction, Request, Response } from 'express'
 import { LoginRequestBody } from '../models/LoginRequestBody'
 import { validate } from 'class-validator'
@@ -17,7 +13,12 @@ export class LoginValidationMiddleware implements NestMiddleware {
     loginRequestBody.password = body.password
     loginRequestBody.tenant = body.tenant
 
+    console.log('loginRequestBody', loginRequestBody)
+    console.log('body', body)
+
     const validations = await validate(loginRequestBody)
+
+    console.log('validations', validations)
 
     if (validations.length) {
       throw new BadRequestException(

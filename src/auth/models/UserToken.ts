@@ -1,3 +1,7 @@
 export interface UserToken {
-  access_token: string;
+  id: string
+  name: string
+  email: string
+  tenant: string
+  access_token: string
 }

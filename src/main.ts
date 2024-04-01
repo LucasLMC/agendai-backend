@@ -18,13 +18,21 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Agendai API')
     .setDescription('The Agendai API description')
+    .addBearerAuth()
     .setVersion('1.0')
     .addTag('agendai')
     .build()
   const document = SwaggerModule.createDocument(app, config)
 
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
+
   SwaggerModule.setup('docs', app, document)
 
-  await app.listen(8080)
+  await app.listen(process.env.PORT || 8080)
 }
 bootstrap()
