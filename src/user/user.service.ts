@@ -24,7 +24,7 @@ export class UserService {
   }
 
   findAll() {
-    return 'This action returns all user'
+    return this.prisma.user.findMany()
   }
 
   findById(id: string) {
@@ -35,7 +35,7 @@ export class UserService {
     return this.prisma.user.findFirst({ where: { email } })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`
+  remove(id: string) {
+    return this.prisma.user.delete({ where: { id } })
   }
 }
