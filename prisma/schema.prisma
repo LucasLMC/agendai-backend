@@ -21,8 +21,91 @@ model User {
   email    String
   password String
 
-  tenant String
+  createdAt  DateTime
+  updatedAt  DateTime
+  UserTenant UserTenant[]
+  Employee   Employee[]
+}
+
+model Tenant {
+  id String @id @default(uuid())
+
+  name String
+  slug String @unique
+  url  String @unique
+  logo String
+
+  cpf_cnpj String
+  endereco String
+  bairro   String
+  cidade   String
+  estado   String
+  cep      String
+  email    String
+  phone    String
 
   createdAt DateTime
   updatedAt DateTime
+
+  UserTenant UserTenant[]
+  Employee   Employee[]
+  Customer   Customer[]
+}
+
+model UserTenant {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  tenant Tenant @relation(fields: [tenantSlug], references: [slug])
+
+  createdAt DateTime
+  updatedAt DateTime
+
+  userId     String
+  tenantSlug String
+}
+
+// create a employee record
+model Employee {
+  id             String @id @default(uuid())
+  name           String
+  email          String
+  email2         String
+  endereco       String
+  bairro         String
+  cidade         String
+  estado         String
+  cep            String
+  phone          String
+  telefone       String
+  dataNascimento String
+  estadoCivil    String
+  rg             String
+  cpf            String
+
+  banco   String
+  agencia String
+  conta   String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime
+  updatedAt DateTime
+
+  tenant     Tenant @relation(fields: [tenantSlug], references: [slug])
+  tenantSlug String
+}
+
+// create a customer base
+model Customer {
+  id    String @id @default(uuid())
+  name  String
+  email String
+
+  createdAt DateTime
+  updatedAt DateTime
+
+  tenant     Tenant @relation(fields: [tenantSlug], references: [slug])
+  tenantSlug String
 }

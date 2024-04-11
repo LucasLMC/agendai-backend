@@ -10,8 +10,4 @@ export class LoginRequestBody {
   @ApiProperty()
   @IsString()
   password: string
-
-  @ApiProperty()
-  @IsString()
-  tenant: string
 }
