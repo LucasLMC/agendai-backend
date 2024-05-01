@@ -22,10 +22,6 @@ export class CreateUserDto extends User {
   })
   password: string
 
-  @ApiProperty()
-  @IsString()
-  tenant: string
-
   @ApiProperty({ default: new Date() })
   @IsDateString()
   createdAt: Date

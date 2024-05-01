@@ -17,12 +17,76 @@ datasource db {
 model User {
   id String @id @default(uuid())
 
-  name     String
-  email    String
+  name     String 
+  email    String @unique
   password String
 
-  tenant String
+  tenant Tenant[]
+  client client[]
 
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+}
+
+
+model Tenant {
+  id String @id @default(uuid())
+
+  name String
+  slug String @unique
+  tipoPessoa String?
+  cpf_cnpj String?
+  contato String?
+  email String?
+  telefone String?
+  celular String?
+  cep String?
+  logradouro String?
+  numero String?
+  complemento String?
+  bairro String?
+  cidade String?
+  uf String?
+
+  user User @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+}
+
+model client {
+  id String @id @default(uuid())
+
+  name String
+  tipoPessoa String?
+  cpf_cnpj String?
+  contato String?
+  email String?
+  telefone String?
+  celular String?
+  cep String?
+  logradouro String?
+  numero String?
+  complemento String?
+  bairro String?
+  cidade String?
+  uf String?
+
+  user User @relation(fields: [userId], references: [id])
+  userId String
+
+  tenantSlug String
+
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+}
+
+model service {
+  id String @id @default(uuid())
+
+  tenantSlug String
+
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
 }

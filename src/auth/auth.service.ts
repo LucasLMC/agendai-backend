@@ -13,38 +13,46 @@ export class AuthService {
     private readonly UserService: UserService,
   ) {}
 
-  async login(user: User): Promise<UserToken> {
-    const { id, email, name, tenant } = user
+  async login(user: User, tenant: string): Promise<UserToken> {
+    const { id, email, name } = user
+
+    console.log('login', user, tenant)
+
     const payload: UserPayload = {
       sub: id,
       email: email,
       name: name,
-      tenant: tenant,
     }
 
     const jwt_token = this.jwtService.sign(payload)
 
-    console.log(jwt_token)
+    const hasTenant = await this.findTenantByUser(tenant)
+
+    if (!hasTenant) {
+      throw new Error('Tenant not found')
+    }
 
     return {
       id,
       email,
       name,
-      tenant,
       access_token: jwt_token,
     }
   }
 
-  async validateUser(email: string, password: string, tenant: string): Promise<User> {
+  async findTenantByUser(tenant: string): Promise<boolean> {
+    console.log('tenant', tenant)
+
+    return true
+  }
+
+  async validateUser(email: string, password: string): Promise<User> {
     const user = await this.UserService.findByEmail(email)
 
     //TODO: validate tenant - email@fulano.com.br Abcd@123 [Function: verified]
-    console.log('consts', email, password, tenant)
-
-    console.log('validateUser', user)
+    console.log('consts', email, password)
 
     if (user) {
-      console.log('user', user)
       const isPasswordValid = await bcrypt.compare(password, user.password)
 
       if (isPasswordValid) {

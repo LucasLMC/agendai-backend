@@ -16,7 +16,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   login(@Body() loginDto: LoginDto, @Request() req: AuthRequest) {
-    console.log('req.user', req.user)
-    return this.authService.login(req.user)
+    const tenant = loginDto.tenant
+    return this.authService.login(req.user, tenant)
   }
 }
